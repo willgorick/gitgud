@@ -95,7 +95,7 @@ function pr() {
     body_prompt="What is the body of the PR: "
     jira_prompt="Does this work have a corresponding Jira ID: "
     base_prompt="What is the base branch for the PR (if empty, default is main): "
-    head_prompt="What is the head branch for the PR (if empty, default is main): "
+    head_prompt="What is the head branch for the PR (if empty, default is current branch): "
 
     read "title?"$title_prompt
     printf "\033[A\033[K"
@@ -113,11 +113,18 @@ function pr() {
     fi
 
     read "base?"$base_prompt
-    if ! [ -z $base ]; then
+    if [ -z $base ]; then
         base="main"
     fi
     printf "\033[A\033[K"
     echo -e "$base_prompt\033[36m$base\033[0m"
+
+    read "head?"$head_prompt
+    if [ -z $head ]; then
+        head=$(git branch --show-current)
+    fi
+    printf "\033[A\033[K"
+    echo -e "$head_prompt\033[36m$head\033[0m"
 
     output="Title: \"$title\"\nBody: \"$body\"\nBase: \"$base\"\nHead: \"$head\""
     echo -e "PR info:"
