@@ -119,6 +119,13 @@ function pr() {
     printf "\033[A\033[K"
     echo -e "$base_prompt\033[36m$base\033[0m"
 
+    read "head?"$head_prompt
+    if ! [ -z $head ]; then
+        head=$(git branch --show-current)
+    fi
+    printf "\033[A\033[K"
+    echo -e "$head_prompt\033[36m$head\033[0m"
+
     output="Title: \"$title\"\nBody: \"$body\"\nBase: \"$base\"\nHead: \"$head\""
     echo -e "PR info:"
     echo -e "\033[36m$output\033[0m"
