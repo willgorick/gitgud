@@ -113,14 +113,14 @@ function pr() {
     fi
 
     read "base?"$base_prompt
-    if ! [ -z $base ]; then
+    if [ -z $base ]; then
         base="main"
     fi
     printf "\033[A\033[K"
     echo -e "$base_prompt\033[36m$base\033[0m"
 
     read "head?"$head_prompt
-    if ! [ -z $head ]; then
+    if [ -z $head ]; then
         head=$(git branch --show-current)
     fi
     printf "\033[A\033[K"
