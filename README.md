@@ -1,0 +1,1 @@
+In order to use this tool fully you will need to install the gh cli and configure it with your account credentials
