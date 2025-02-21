@@ -95,7 +95,7 @@ function pr() {
     body_prompt="What is the body of the PR: "
     jira_prompt="Does this work have a corresponding Jira ID: "
     base_prompt="What is the base branch for the PR (if empty, default is main): "
-    head_prompt="What is the head branch for the PR (if empty, default is main): "
+    head_prompt="What is the head branch for the PR (if empty, default is current branch): "
 
     read "title?"$title_prompt
     printf "\033[A\033[K"
