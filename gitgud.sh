@@ -1,6 +1,7 @@
 #!/bin/zsh
 autoload colors; colors;
 COLOR=$(jq -r '.color' config.json)
+JIRA_PREFIX=$(jq -r '.jira_url_prefix' config.json)
 
 function choose_from_menu() {
     local prompt="$1" outvar="$2"
@@ -111,7 +112,7 @@ function pr() {
     printf "\033[A\033[K"
     echo -e "$jira_prompt$fg[$COLOR]$jira$reset_color"
     if ! [ -z $jira ]; then
-        jira="Jira=$jira\n"
+        jira="Jira=[$jira]($JIRA_PREFIX$jira)\n"
     fi
 
     read "base?"$base_prompt
