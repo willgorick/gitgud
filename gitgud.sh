@@ -154,10 +154,17 @@ elif [[ $# > 2 ]]; then
 fi
 command=$1
 
-if [[ $command == 'commit' ]]; then
-    commit
-elif [[ $command == 'pr' ]]; then
-    pr
-else
-    echo "Invalid param: valid params are: $valid_params"
-fi
+case "$command" in 
+    commit)
+        commit
+        ;;
+    pr)
+        pr
+        ;;
+    push)
+        git push
+        ;;
+    *)
+        echo "Invalid param: valid params are: $valid_params"
+        ;;
+esac    
