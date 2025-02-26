@@ -1,5 +1,5 @@
 {
     "version": 1,
     "color": "cyan", 
-    "jira_url_prefix": "test_jira_prefix.com/"
+    "jira_url_prefix": ""
 }
