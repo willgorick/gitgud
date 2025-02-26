@@ -1,4 +1,6 @@
 #!/bin/zsh
+autoload colors; colors;
+COLOR=$(jq -r '.color' config.json)
 
 function choose_from_menu() {
     local prompt="$1" outvar="$2"
@@ -15,7 +17,7 @@ function choose_from_menu() {
         for o in "${options[@]}"
         do
             if [[ "$index" == "$cur" ]]
-                then echo -e "\033[36m[*] $o\033[0m"
+                then echo -e "$fg[$COLOR][*] $o$reset_color"
                 else echo "[]  $o"
             fi
             index=$(( $index+1 ))
@@ -40,7 +42,7 @@ function choose_from_menu() {
     for ((i=0; i < $total_rows_with_prompt; i++ )); do 
         printf "\033[A\033[K"
     done
-    echo -e "$prompt\033[36m${options[$cur]}\033[0m"
+    echo -e "$prompt$fg[$COLOR]${options[$cur]}$reset_color"
     # pass chosen selection to output
     eval $outvar="'${options[$cur]}'"
 }
@@ -63,10 +65,10 @@ function commit() {
     choose_from_menu $type_prompt type "${selections[@]}"
     read "scope?$scope_prompt"
     printf "\033[A\033[K"
-    echo -e "$scope_prompt\033[36m$scope\033[0m"
+    echo -e "$scope_prompt$fg[$COLOR]$scope$reset_color"
     read "message?$commit_prompt"
     printf "\033[A\033[K"
-    echo -e "$commit_prompt\033[36m$message\033[0m"
+    echo -e "$commit_prompt$fg[$COLOR]$message$reset_color"
 
     output="$type"
     if ! [ -z $scope ]; then 
@@ -74,7 +76,7 @@ function commit() {
     fi
     output=$output": "$message
 
-    echo -e "Commit message: \033[36m$output\033[0m"
+    echo -e "Commit message: $fg[$COLOR]$output$reset_color"
     echo -n "Do you want to commit this message?: (y/n) "
     while true
     do
@@ -99,15 +101,15 @@ function pr() {
 
     read "title?"$title_prompt
     printf "\033[A\033[K"
-    echo -e "$title_prompt\033[36m$title\033[0m"
+    echo -e "$title_prompt$fg[$COLOR]$title$reset_color"
 
     read "body?"$body_prompt
     printf "\033[A\033[K"
-    echo -e "$body_prompt\033[36m$body\033[0m"
+    echo -e "$body_prompt$fg[$COLOR]$body$reset_color"
 
     read "jira?"$jira_prompt
     printf "\033[A\033[K"
-    echo -e "$jira_prompt\033[36m$jira\033[0m"
+    echo -e "$jira_prompt$fg[$COLOR]$jira$reset_color"
     if ! [ -z $jira ]; then
         jira="Jira=$jira\n"
     fi
@@ -117,18 +119,18 @@ function pr() {
         base="main"
     fi
     printf "\033[A\033[K"
-    echo -e "$base_prompt\033[36m$base\033[0m"
+    echo -e "$base_prompt$fg[$COLOR]$base$reset_color"
 
     read "head?"$head_prompt
     if [ -z $head ]; then
         head=$(git branch --show-current)
     fi
     printf "\033[A\033[K"
-    echo -e "$head_prompt\033[36m$head\033[0m"
+    echo -e "$head_prompt$fg[$COLOR]$head$reset_color"
 
     output="Title: \"$title\"\nBody: \"$body\"\nBase: \"$base\"\nHead: \"$head\""
     echo -e "PR info:"
-    echo -e "\033[36m$output\033[0m"
+    echo -e "$fg[$COLOR]$output$reset_color"
     echo -n "Do you want to create this PR?: (y/n) "
     read -s -r -k key
     if [[ "${key}" == "y" ]]; then
