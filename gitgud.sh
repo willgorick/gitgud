@@ -112,7 +112,8 @@ function pr() {
     printf "\033[A\033[K"
     echo -e "$jira_prompt$fg[$COLOR]$jira$reset_color"
     if ! [ -z $jira ]; then
-        jira="Jira=[$jira]($JIRA_PREFIX$jira)\n"
+        jira="Jira=[$jira]($JIRA_PREFIX$jira)
+"
     fi
 
     read "base?"$base_prompt
@@ -129,7 +130,7 @@ function pr() {
     printf "\033[A\033[K"
     echo -e "$head_prompt$fg[$COLOR]$head$reset_color"
 
-    output="Title: \"$title\"\nBody: \"$body\"\nBase: \"$base\"\nHead: \"$head\""
+    output="Title: \"$title\"\nBody: \"$jira$body\"\nBase: \"$base\"\nHead: \"$head\""
     echo -e "PR info:"
     echo -e "$fg[$COLOR]$output$reset_color"
     echo -n "Do you want to create this PR?: (y/n) "
